@@ -1,0 +1,67 @@
+﻿@model List<OtelEntity>
+
+    <a asp-controller="Otel" asp-action="Create" class="btn btn-success" style="margin-top: 20px;">Ekle</a> 
+
+    <br />
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Adı</th>
+            <th scope="col">Açıklama</th>
+            <th scope="col">Türü</th>
+            <th scope="col">Yıldız Sayısı</th>
+            <th scope="col">Adres</th>
+            <th scope="col">Ulke</th>
+            <th scope="col">Sehir</th>
+            <th scope="col">Telefon</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Logo</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (OtelEntity otel in Model)
+        {
+            <tr>
+                <td scope="row">@otel.Id</td>
+                <td>@otel.Adi</td>
+                <td>@otel.Aciklama</td>
+                <td>@otel.Turu</td>
+                <td>@otel.Yildizi</td>
+                <td>@otel.Adres</td>
+                <td>@otel.Ulke</td>
+                <td>@otel.Sehir</td>
+                <td>@otel.Telefon</td>
+                <td>@otel.Email</td>
+                <td>@otel.Logo</td>
+                <td>
+                    
+                    <a asp-controller="Otel" asp-action="Edit" asp-route-id="@otel.Id" class="btn btn-warning">Düzenle</a>
+                    <a asp-controller="Otel" asp-action="Delete" asp-route-id="@otel.Id" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+
+        
+       
+      
+
+     
+
+
+
+    </tbody>
+    @* <tfoot>
+    <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Adı</th>
+    <th scope="col">Açıklama</th>
+    <th scope="col">Telefon</th>
+    <th scope="col">İşlemler</th>
+    </tr>
+    </tfoot> *@
+
+</table>

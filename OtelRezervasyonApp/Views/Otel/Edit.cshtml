@@ -1,0 +1,43 @@
+﻿@model OtelEntity
+
+<div class="row">
+
+    <div class="col">
+        <form asp-controller="Otel" asp-action="Edit">
+
+
+            <label asp-for="Adi">@Html.DisplayNameFor(m => m.Adi)</label>
+            <input asp-for="Adi" class="form-control" /> <br />
+
+            <label asp-for="Aciklama">@Html.DisplayNameFor(m => m.Aciklama)</label>
+            <input asp-for="Aciklama" class="form-control" /> <br />
+
+            <label asp-for="Turu">@Html.DisplayNameFor(m => m.Turu)</label>
+            <select asp-for="Turu" asp-items="Html.GetEnumSelectList<Tur>()" class="form-control"></select> <br />
+
+            <label asp-for="Yildizi">@Html.DisplayNameFor(m => m.Yildizi)</label>
+            <select asp-for="Yildizi" asp-items="Html.GetEnumSelectList<Yildiz>()" class="form-control"></select> <br />
+
+            <label asp-for="Adres">@Html.DisplayNameFor(m => m.Adres)</label>
+            <input asp-for="Adres" class="form-control" /> <br />
+
+            <label asp-for="Ulke">@Html.DisplayNameFor(m => m.Ulke)</label>
+            <input asp-for="Ulke" class="form-control" /> <br />
+
+            <label asp-for="Sehir">@Html.DisplayNameFor(m => m.Sehir)</label>
+            <input asp-for="Sehir" class="form-control" /> <br />
+
+            <label asp-for="Telefon">@Html.DisplayNameFor(m => m.Telefon)</label>
+            <input asp-for="Telefon" class="form-control" /> <br />
+
+            <label asp-for="Email">@Html.DisplayNameFor(m => m.Email)</label>
+            <input asp-for="Email" class="form-control" /> <br />
+
+            <label asp-for="Logo">@Html.DisplayNameFor(m => m.Logo)</label>
+            <input asp-for="Logo" class="form-control" /> <br />
+
+            <input type="submit" value="kaydet" onclick="alert('Kayıt Başarıyla Güncellendi!')" class="btn btn-success" />
+        </form>
+    </div>
+
+</div>
