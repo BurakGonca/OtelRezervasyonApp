@@ -12,11 +12,12 @@ namespace OtelRezervasyonApp.Data
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlServer("Data Source=ANK-YZLMORT-01\\MSSQLSERVERANK16;Initial Catalog=OtelRezervasyonDB ;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;");
+            optionsBuilder.UseSqlServer("Data Source=BURAK;Initial Catalog=OtelRezervasyonDB ;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;");
 
         }
 
+		//ANK-YZLMORT-01\\MSSQLSERVERANK16
+        //BURAK
 
-
-    }
+	}
 }
