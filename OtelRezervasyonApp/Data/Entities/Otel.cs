@@ -1,9 +1,10 @@
-﻿using OtelRezervasyonApp.Models;
+﻿using OtelRezervasyonApp.Data.Enums;
+using OtelRezervasyonApp.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace OtelRezervasyonApp.Data.Entities
 {
-    public class OtelEntity
+    public class Otel
     {
         public int Id { get; set; }
         public string Adi { get; set; }

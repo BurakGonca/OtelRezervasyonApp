@@ -6,7 +6,7 @@ namespace OtelRezervasyonApp.Data
 {
     public class OtelRezervasyonDbContext : DbContext
     {
-        public DbSet<OtelEntity> Oteller { get; set; }
+        public DbSet<Otel> Oteller { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

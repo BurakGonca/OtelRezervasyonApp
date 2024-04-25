@@ -38,7 +38,7 @@ namespace OtelRezervasyonApp.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(OtelEntity model)
+        public ActionResult Create(Otel model)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace OtelRezervasyonApp.Controllers
         public ActionResult Delete(int id)
         {
 
-            OtelEntity Model = _otelDbContext.Oteller.Single(o => o.Id == id);
+            Otel Model = _otelDbContext.Oteller.Single(o => o.Id == id);
             return View(Model);
 
         }
@@ -84,7 +84,7 @@ namespace OtelRezervasyonApp.Controllers
         {
             try
             {
-                OtelEntity Model = _otelDbContext.Oteller.Single(o => o.Id == id);
+                Otel Model = _otelDbContext.Oteller.Single(o => o.Id == id);
                 _otelDbContext.Oteller.Remove(Model);
                 _otelDbContext.SaveChanges();
 
@@ -110,7 +110,7 @@ namespace OtelRezervasyonApp.Controllers
       
         public ActionResult Edit(int id)
         {
-            OtelEntity model = _otelDbContext.Oteller.Single(o => o.Id == id);
+            Otel model = _otelDbContext.Oteller.Single(o => o.Id == id);
 
             return View(model);
         }
@@ -118,11 +118,11 @@ namespace OtelRezervasyonApp.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, OtelEntity newModel)
+        public ActionResult Edit(int id, Otel newModel)
         {
             try
             {
-                OtelEntity oldModel = _otelDbContext.Oteller.Single(o => o.Id == id);
+                Otel oldModel = _otelDbContext.Oteller.Single(o => o.Id == id);
                 oldModel.Adi = newModel.Adi;
                 oldModel.Aciklama = newModel.Aciklama;
                 oldModel.Turu = newModel.Turu;
