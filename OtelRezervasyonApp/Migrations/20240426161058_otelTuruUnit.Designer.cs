@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OtelRezervasyonApp.Data;
 
@@ -10,9 +11,11 @@ using OtelRezervasyonApp.Data;
 namespace OtelRezervasyonApp.Migrations
 {
     [DbContext(typeof(OtelRezervasyonDbContext))]
-    partial class OtelRezervasyonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240426161058_otelTuruUnit")]
+    partial class otelTuruUnit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,29 +50,25 @@ namespace OtelRezervasyonApp.Migrations
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OtelTuruId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SehirId")
-                        .HasColumnType("int");
+                    b.Property<string>("Sehir")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UlkeId")
+                    b.Property<int>("Turu")
                         .HasColumnType("int");
+
+                    b.Property<string>("Ulke")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Yildizi")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OtelTuruId");
-
-                    b.HasIndex("SehirId");
-
-                    b.HasIndex("UlkeId");
 
                     b.ToTable("Oteller");
                 });
@@ -135,86 +134,6 @@ namespace OtelRezervasyonApp.Migrations
                     b.ToTable("OtelTurleri");
                 });
 
-            modelBuilder.Entity("OtelRezervasyonApp.Data.Entities.Sehir", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UlkeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UlkeId");
-
-                    b.ToTable("Sehirler");
-                });
-
-            modelBuilder.Entity("OtelRezervasyonApp.Data.Entities.Ulke", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ulkeler");
-                });
-
-            modelBuilder.Entity("OtelRezervasyonApp.Data.Entities.Otel", b =>
-                {
-                    b.HasOne("OtelRezervasyonApp.Data.Entities.OtelTuru", "OtelTuru")
-                        .WithMany()
-                        .HasForeignKey("OtelTuruId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OtelRezervasyonApp.Data.Entities.Sehir", "Sehir")
-                        .WithMany()
-                        .HasForeignKey("SehirId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OtelRezervasyonApp.Data.Entities.Ulke", "Ulke")
-                        .WithMany()
-                        .HasForeignKey("UlkeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OtelTuru");
-
-                    b.Navigation("Sehir");
-
-                    b.Navigation("Ulke");
-                });
-
             modelBuilder.Entity("OtelRezervasyonApp.Data.Entities.OtelKapasitesi", b =>
                 {
                     b.HasOne("OtelRezervasyonApp.Data.Entities.Otel", "Otel")
@@ -224,22 +143,6 @@ namespace OtelRezervasyonApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Otel");
-                });
-
-            modelBuilder.Entity("OtelRezervasyonApp.Data.Entities.Sehir", b =>
-                {
-                    b.HasOne("OtelRezervasyonApp.Data.Entities.Ulke", "Ulke")
-                        .WithMany("Sehirler")
-                        .HasForeignKey("UlkeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ulke");
-                });
-
-            modelBuilder.Entity("OtelRezervasyonApp.Data.Entities.Ulke", b =>
-                {
-                    b.Navigation("Sehirler");
                 });
 #pragma warning restore 612, 618
         }

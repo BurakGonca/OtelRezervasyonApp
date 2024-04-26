@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OtelRezervasyonApp.Data;
 
@@ -10,9 +11,11 @@ using OtelRezervasyonApp.Data;
 namespace OtelRezervasyonApp.Migrations
 {
     [DbContext(typeof(OtelRezervasyonDbContext))]
-    partial class OtelRezervasyonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240426184016_OtelUpdate")]
+    partial class OtelUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

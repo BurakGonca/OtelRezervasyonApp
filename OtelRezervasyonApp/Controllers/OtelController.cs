@@ -1,153 +1,182 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using OtelRezervasyonApp.Data;
 using OtelRezervasyonApp.Data.Entities;
-using OtelRezervasyonApp.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace OtelRezervasyonApp.Controllers
 {
     public class OtelController : Controller
     {
+        private readonly OtelRezervasyonDbContext _context;
 
-        private OtelRezervasyonDbContext _otelDbContext;
-
-        public OtelController(OtelRezervasyonDbContext dbContext)
+        public OtelController(OtelRezervasyonDbContext context)
         {
-                _otelDbContext = dbContext;
+            _context = context;
         }
 
-
-
-
-        public IActionResult Index()
+        // GET: Otel
+        public async Task<IActionResult> Index()
         {
-            var oteller = _otelDbContext.Oteller.ToList();
-
-            return View(oteller);
+            var otelRezervasyonDbContext = _context.Oteller.Include(o => o.OtelTuru).Include(o => o.Sehir).Include(o => o.Ulke);
+            return View(await otelRezervasyonDbContext.ToListAsync());
         }
 
-
-
-
-       
-        public ActionResult Create()
+        // GET: Otel/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var otel = await _context.Oteller
+                .Include(o => o.OtelTuru)
+                .Include(o => o.Sehir)
+                .Include(o => o.Ulke)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (otel == null)
+            {
+                return NotFound();
+            }
+
+            return View(otel);
+        }
+
+        // GET: Otel/Create
+        public IActionResult Create()
+        {
+            ViewData["OtelTuruId"] = new SelectList(_context.OtelTurleri, "Id", "Name");
+            ViewData["SehirId"] = new SelectList(_context.Sehirler, "Id", "Name");
+            ViewData["UlkeId"] = new SelectList(_context.Ulkeler, "Id", "Name");
             return View();
         }
 
-        
+        // POST: Otel/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Otel model)
+        public async Task<IActionResult> Create([Bind("Id,Adi,Aciklama,OtelTuruId,Yildizi,Adres,UlkeId,SehirId,Telefon,Email,Logo")] Otel otel)
         {
-            try
+
+            ModelState.Remove("OtelTuru");
+            ModelState.Remove("Ulke");
+            ModelState.Remove("Sehir");
+
+
+            if (ModelState.IsValid)
             {
-                _otelDbContext.Oteller.Add(model);
-                _otelDbContext.SaveChanges();
-
-
-
-                //TempData["kayit"] = true;
-
+                _context.Add(otel);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                //TempData["kayit"] = false;
-
-                return View();
-            }
+            ViewData["OtelTuruId"] = new SelectList(_context.OtelTurleri, "Id", "Name", otel.OtelTuruId);
+            ViewData["SehirId"] = new SelectList(_context.Sehirler, "Id", "Name", otel.SehirId);
+            ViewData["UlkeId"] = new SelectList(_context.Ulkeler, "Id", "Name", otel.UlkeId);
+            return View(otel);
         }
 
-
-
-
-        
-        public ActionResult Delete(int id)
+        // GET: Otel/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            Otel Model = _otelDbContext.Oteller.Single(o => o.Id == id);
-            return View(Model);
-
+            var otel = await _context.Oteller.FindAsync(id);
+            if (otel == null)
+            {
+                return NotFound();
+            }
+            ViewData["OtelTuruId"] = new SelectList(_context.OtelTurleri, "Id", "Name", otel.OtelTuruId);
+            ViewData["SehirId"] = new SelectList(_context.Sehirler, "Id", "Name", otel.SehirId);
+            ViewData["UlkeId"] = new SelectList(_context.Ulkeler, "Id", "Name", otel.UlkeId);
+            return View(otel);
         }
 
-
-        
-
-
-
-
-       
+        // POST: Otel/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirm(int id)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Adi,Aciklama,OtelTuruId,Yildizi,Adres,UlkeId,SehirId,Telefon,Email,Logo")] Otel otel)
         {
-            try
+            if (id != otel.Id)
             {
-                Otel Model = _otelDbContext.Oteller.Single(o => o.Id == id);
-                _otelDbContext.Oteller.Remove(Model);
-                _otelDbContext.SaveChanges();
+                return NotFound();
+            }
 
-
-
-                //TempData["sil"] = true;
-
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(otel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OtelExists(otel.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["OtelTuruId"] = new SelectList(_context.OtelTurleri, "Id", "Name", otel.OtelTuruId);
+            ViewData["SehirId"] = new SelectList(_context.Sehirler, "Id", "Name", otel.SehirId);
+            ViewData["UlkeId"] = new SelectList(_context.Ulkeler, "Id", "Name", otel.UlkeId);
+            return View(otel);
         }
 
-
-
-
-        
-
-
-
-      
-        public ActionResult Edit(int id)
+        // GET: Otel/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
-            Otel model = _otelDbContext.Oteller.Single(o => o.Id == id);
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            return View(model);
+            var otel = await _context.Oteller
+                .Include(o => o.OtelTuru)
+                .Include(o => o.Sehir)
+                .Include(o => o.Ulke)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (otel == null)
+            {
+                return NotFound();
+            }
+
+            return View(otel);
         }
 
-        
-        [HttpPost]
+        // POST: Otel/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Otel newModel)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
+            var otel = await _context.Oteller.FindAsync(id);
+            if (otel != null)
             {
-                Otel oldModel = _otelDbContext.Oteller.Single(o => o.Id == id);
-                oldModel.Adi = newModel.Adi;
-                oldModel.Aciklama = newModel.Aciklama;
-                oldModel.Turu = newModel.Turu;
-                oldModel.Yildizi = newModel.Yildizi;
-                oldModel.Adres = newModel.Adres;
-                oldModel.Ulke = newModel.Ulke;
-                oldModel.Sehir = newModel.Sehir;
-                oldModel.Telefon = newModel.Telefon;
-                oldModel.Email = newModel.Email;
-                oldModel.Logo = newModel.Logo;
-                
-
-                _otelDbContext.Oteller.Update(oldModel);
-                _otelDbContext.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
+                _context.Oteller.Remove(otel);
             }
-            catch
-            {
-                return View();
-            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-
-        
-
+        private bool OtelExists(int id)
+        {
+            return _context.Oteller.Any(e => e.Id == id);
+        }
     }
 }

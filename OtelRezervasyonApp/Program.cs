@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using OtelRezervasyonApp.Data;
 
 namespace OtelRezervasyonApp
@@ -8,7 +9,10 @@ namespace OtelRezervasyonApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<OtelRezervasyonDbContext>();
+            builder.Services.AddDbContext<OtelRezervasyonDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbConstr"));
+            });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

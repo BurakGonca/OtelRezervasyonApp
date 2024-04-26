@@ -1,67 +1,89 @@
-﻿@model List<Otel>
+﻿@model IEnumerable<OtelRezervasyonApp.Data.Entities.Otel>
 
-    <a asp-controller="Otel" asp-action="Create" class="btn btn-success" style="margin-top: 20px;">Ekle</a> 
+@{
+    ViewData["Title"] = "Index";
+}
 
-    <br />
+<h1>Index</h1>
 
-
-<table class="table table-striped">
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
     <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Adı</th>
-            <th scope="col">Açıklama</th>
-            <th scope="col">Türü</th>
-            <th scope="col">Yıldız Sayısı</th>
-            <th scope="col">Adres</th>
-            <th scope="col">Ulke</th>
-            <th scope="col">Sehir</th>
-            <th scope="col">Telefon</th>
-            <th scope="col">E-mail</th>
-            <th scope="col">Logo</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aciklama)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OtelTuru)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Yildizi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ulke)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sehir)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Logo)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-
-        @foreach (Otel otel in Model)
-        {
-            <tr>
-                <td scope="row">@otel.Id</td>
-                <td>@otel.Adi</td>
-                <td>@otel.Aciklama</td>
-                <td>@otel.Turu</td>
-                <td>@otel.Yildizi</td>
-                <td>@otel.Adres</td>
-                <td>@otel.Ulke</td>
-                <td>@otel.Sehir</td>
-                <td>@otel.Telefon</td>
-                <td>@otel.Email</td>
-                <td>@otel.Logo</td>
-                <td>
-                    
-                    <a asp-controller="Otel" asp-action="Edit" asp-route-id="@otel.Id" class="btn btn-warning">Düzenle</a>
-                    <a asp-controller="Otel" asp-action="Delete" asp-route-id="@otel.Id" class="btn btn-danger">Sil</a>
-                </td>
-            </tr>
-        }
-
-        
-       
-      
-
-     
-
-
-
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aciklama)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OtelTuru.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yildizi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ulke.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sehir.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Logo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
-    @* <tfoot>
-    <tr>
-    <th scope="col">ID</th>
-    <th scope="col">Adı</th>
-    <th scope="col">Açıklama</th>
-    <th scope="col">Telefon</th>
-    <th scope="col">İşlemler</th>
-    </tr>
-    </tfoot> *@
-
 </table>

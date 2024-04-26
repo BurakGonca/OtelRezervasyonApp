@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OtelRezervasyonApp.Data;
 
@@ -10,9 +11,11 @@ using OtelRezervasyonApp.Data;
 namespace OtelRezervasyonApp.Migrations
 {
     [DbContext(typeof(OtelRezervasyonDbContext))]
-    partial class OtelRezervasyonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240426175105_UlkelerSehirlerUnit")]
+    partial class UlkelerSehirlerUnit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,29 +50,25 @@ namespace OtelRezervasyonApp.Migrations
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OtelTuruId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SehirId")
-                        .HasColumnType("int");
+                    b.Property<string>("Sehir")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UlkeId")
+                    b.Property<int>("Turu")
                         .HasColumnType("int");
+
+                    b.Property<string>("Ulke")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Yildizi")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OtelTuruId");
-
-                    b.HasIndex("SehirId");
-
-                    b.HasIndex("UlkeId");
 
                     b.ToTable("Oteller");
                 });
@@ -186,33 +185,6 @@ namespace OtelRezervasyonApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ulkeler");
-                });
-
-            modelBuilder.Entity("OtelRezervasyonApp.Data.Entities.Otel", b =>
-                {
-                    b.HasOne("OtelRezervasyonApp.Data.Entities.OtelTuru", "OtelTuru")
-                        .WithMany()
-                        .HasForeignKey("OtelTuruId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OtelRezervasyonApp.Data.Entities.Sehir", "Sehir")
-                        .WithMany()
-                        .HasForeignKey("SehirId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OtelRezervasyonApp.Data.Entities.Ulke", "Ulke")
-                        .WithMany()
-                        .HasForeignKey("UlkeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OtelTuru");
-
-                    b.Navigation("Sehir");
-
-                    b.Navigation("Ulke");
                 });
 
             modelBuilder.Entity("OtelRezervasyonApp.Data.Entities.OtelKapasitesi", b =>
