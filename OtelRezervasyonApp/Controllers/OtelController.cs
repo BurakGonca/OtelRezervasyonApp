@@ -61,25 +61,46 @@ namespace OtelRezervasyonApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Adi,Aciklama,OtelTuruId,Yildizi,Adres,UlkeId,SehirId,Telefon,Email,Logo")] Otel otel)
+        public async Task<IActionResult> Create([Bind("Id,Adi,Aciklama,OtelTuruId,Yildizi,Adres,UlkeId,SehirId,Telefon,Email")] Otel otel, IFormFile? logoFile)
         {
 
             ModelState.Remove("OtelTuru");
             ModelState.Remove("Ulke");
             ModelState.Remove("Sehir");
 
-
             if (ModelState.IsValid)
             {
+                if (logoFile != null)
+                {
+
+                    var extent = Path.GetExtension(logoFile.FileName); // Dosya uzantısı alma .jpg - .jpeg - .png vs.
+                    var dummyName = Guid.NewGuid().ToString(); // rassal benzersiz bir isim icin Guid kullanimi
+
+                    dummyName += extent;
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot//images", dummyName); // Dosyanın kaydedileceği yer
+
+                    using (var stream = new FileStream(path, FileMode.Create)) // Dosyayı kaydetme
+                    {
+                        await logoFile.CopyToAsync(stream);
+                    }
+
+                    otel.Logo = "/images/" + dummyName;
+                }
+
+
                 _context.Add(otel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+
             ViewData["OtelTuruId"] = new SelectList(_context.OtelTurleri, "Id", "Name", otel.OtelTuruId);
             ViewData["SehirId"] = new SelectList(_context.Sehirler, "Id", "Name", otel.SehirId);
             ViewData["UlkeId"] = new SelectList(_context.Ulkeler, "Id", "Name", otel.UlkeId);
             return View(otel);
         }
+
 
         // GET: Otel/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -93,7 +114,11 @@ namespace OtelRezervasyonApp.Controllers
             if (otel == null)
             {
                 return NotFound();
+
             }
+
+
+
             ViewData["OtelTuruId"] = new SelectList(_context.OtelTurleri, "Id", "Name", otel.OtelTuruId);
             ViewData["SehirId"] = new SelectList(_context.Sehirler, "Id", "Name", otel.SehirId);
             ViewData["UlkeId"] = new SelectList(_context.Ulkeler, "Id", "Name", otel.UlkeId);
@@ -105,12 +130,16 @@ namespace OtelRezervasyonApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Adi,Aciklama,OtelTuruId,Yildizi,Adres,UlkeId,SehirId,Telefon,Email,Logo")] Otel otel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Adi,Aciklama,OtelTuruId,Yildizi,Adres,UlkeId,SehirId,Telefon,Email,Logo")] Otel otel, IFormFile? logoFile)
         {
             if (id != otel.Id)
             {
                 return NotFound();
             }
+
+            ModelState.Remove("OtelTuru");
+            ModelState.Remove("Ulke");    //invalid durumu yaptigi icin modelstate'den cikardik
+            ModelState.Remove("Sehir");
 
             if (ModelState.IsValid)
             {
@@ -135,6 +164,9 @@ namespace OtelRezervasyonApp.Controllers
             ViewData["OtelTuruId"] = new SelectList(_context.OtelTurleri, "Id", "Name", otel.OtelTuruId);
             ViewData["SehirId"] = new SelectList(_context.Sehirler, "Id", "Name", otel.SehirId);
             ViewData["UlkeId"] = new SelectList(_context.Ulkeler, "Id", "Name", otel.UlkeId);
+
+
+
             return View(otel);
         }
 
