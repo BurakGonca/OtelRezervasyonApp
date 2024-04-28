@@ -38,6 +38,7 @@ namespace OtelRezervasyonApp.Controllers
                 .Include(o => o.OtelTuru)
                 .Include(o => o.Sehir)
                 .Include(o => o.Ulke)
+                .Include(o => o.OtelinOdalari)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (otel == null)
             {
@@ -210,5 +211,23 @@ namespace OtelRezervasyonApp.Controllers
         {
             return _context.Oteller.Any(e => e.Id == id);
         }
+
+
+
+
+
+		
+		public int HesaplaOtelToplamKapasite(int otelId)
+		{
+			return _context.Oteller
+						   .Where(otel => otel.Id == otelId)
+						   .SelectMany(otel => otel.OtelSezonKapasiteleri)
+						   .Sum(kapasite => kapasite.OtelSezonKapasite);
+		}
+
+
+
+
+
     }
 }

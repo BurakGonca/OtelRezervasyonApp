@@ -1,0 +1,54 @@
+﻿@model OtelRezervasyonApp.Data.Entities.OtelOdasi
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>OtelOdasi</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Otel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Otel.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OdaNumarasi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OdaNumarasi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BulunduguKat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BulunduguKat)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OdaOlcusuM2)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OdaOlcusuM2)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OdaKapasitesi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OdaKapasitesi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OdaTuru)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OdaTuru.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

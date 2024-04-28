@@ -1,0 +1,65 @@
+﻿@model IEnumerable<OtelRezervasyonApp.Data.Entities.OtelOdasi>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Otel Odasi İşlemleri</h4>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Otel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OdaNumarasi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BulunduguKat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OdaOlcusuM2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OdaKapasitesi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OdaTuru)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Otel.Adi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OdaNumarasi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BulunduguKat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OdaOlcusuM2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OdaKapasitesi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OdaTuru.OdaTurAdi)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -9,6 +9,7 @@ namespace OtelRezervasyonApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //appsettings.json dosyasýnda AppDbConstr baglantisina atifta bulunduk
             builder.Services.AddDbContext<OtelRezervasyonDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbConstr"));

@@ -5,7 +5,7 @@
 namespace OtelRezervasyonApp.Migrations
 {
     /// <inheritdoc />
-    public partial class home1 : Migration
+    public partial class refreshdatabase2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
